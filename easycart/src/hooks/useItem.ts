@@ -1,25 +1,31 @@
 import { Create, FindAll, Update, Delete } from "@/services/ItemService";
 import { useMutation, useInfiniteQuery } from "@tanstack/react-query";
+import { ResponseEntity } from "@/types/ResponseEntity";
 import { ItemSchemaType } from "@/schemas/itemSchema";
 import { ItemResponse } from "@/types/ItemResponse";
+import { queryClient } from "@/api/queryClient";
 import Toast from "react-native-toast-message";
+import { useEffect } from "react";
 
-export const createItem = () => {
+export const useCreateItem = () => {
   return useMutation({
     mutationFn: (data: ItemSchemaType) => {
       return Create(data);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["items"] });
+    },
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Something went wrong",
+        text1: "Something went wrong",
+        text2: error.message,
       });
     },
   });
 };
 
-export const findAllItems = () => {
+export const useFindAllItems = () => {
   return useInfiniteQuery({
     queryFn: ({ pageParam }) => {
       return FindAll({ offset: pageParam, limit: 20 });
@@ -32,8 +38,8 @@ export const findAllItems = () => {
     throwOnError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Something went wrong",
+        text1: "Something went wrong",
+        text2: error.message,
       });
 
       return false;
@@ -43,7 +49,7 @@ export const findAllItems = () => {
   });
 };
 
-export const updateItem = () => {
+export const useUpdateItem = () => {
   return useMutation({
     mutationFn: ({
       data,
@@ -57,14 +63,17 @@ export const updateItem = () => {
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Something went wrong",
+        text1: "Something went wrong",
+        text2: error.message,
       });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["items"] });
     },
   });
 };
 
-export const deleteItem = () => {
+export const useDeleteItem = () => {
   return useMutation({
     mutationFn: (itemId: string) => {
       return Delete(itemId);
@@ -72,9 +81,12 @@ export const deleteItem = () => {
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Something went wrong",
+        text1: "Something went wrong",
+        text2: error.message,
       });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["items"] });
     },
   });
 };

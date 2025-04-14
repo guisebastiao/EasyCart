@@ -16,9 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.text.Collator;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +47,8 @@ public class ItemService {
     public ResponseEntityDTO findAll(int offset, int limit) {
         User user = this.authUtil.getAuthenticatedUser();
 
-        Pageable pageable = PageRequest.of(offset, limit, Sort.by(Sort.Direction.ASC, "complete"));
+        Sort sort = Sort.by("complete").ascending().and(Sort.by("content").ascending());
+        Pageable pageable = PageRequest.of(offset, limit, sort);
 
         Page<Item> resultPage = this.itemRepository.findByUser(user, pageable);
 
@@ -69,7 +70,7 @@ public class ItemService {
                     itemResponseDTO.setComplete(e.isComplete());
                     return itemResponseDTO;
                 })
-                .toList();
+                .collect(Collectors.toList());
 
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.OK.value());

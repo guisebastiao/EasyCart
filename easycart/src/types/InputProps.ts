@@ -4,5 +4,5 @@ import { FieldError } from "react-hook-form";
 export interface InputProps extends TextInputProps {
   type: "text" | "password";
   name: string;
-  msg?: FieldError | null;
+  msgError?: FieldError;
 }

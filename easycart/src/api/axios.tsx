@@ -1,11 +1,11 @@
 import { PropsWithChildren, useEffect } from "react";
-import axiosInstance, { AxiosError, AxiosResponse } from "axios";
-import { refreshToken } from "@/hooks/useAuth";
-
 import { useAuthContext } from "@/context/AuthContext";
+import { ResponseEntity } from "@/types/ResponseEntity";
+import axiosInstance, { AxiosError } from "axios";
+import { useRefreshToken } from "@/hooks/useAuth";
 
 export const axios = axiosInstance.create({
-  baseURL: "http://192.168.6.101:8080",
+  baseURL: "http://192.168.18.78:8080",
 });
 
 export const AxiosInteceptor = ({ children }: PropsWithChildren) => {
@@ -35,13 +35,10 @@ export const AxiosInteceptor = ({ children }: PropsWithChildren) => {
           return Promise.reject(error);
         }
 
-        console.log(data, isAuthenticated, token);
-
         if (!data.isAuthenticated && isAuthenticated && token) {
           try {
-            const { mutateAsync } = refreshToken();
+            const { mutateAsync } = useRefreshToken();
             const refreshed = await mutateAsync({ token });
-            console.log(refreshed);
             authenticate(refreshed.data.token);
           } catch (err) {
             logout();

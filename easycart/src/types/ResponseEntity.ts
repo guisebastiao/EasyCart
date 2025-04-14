@@ -1,4 +1,8 @@
-interface ResponseEntity<T = any> {
+import { Paging } from "@/types/Paging";
+import { FieldError } from "@/types/FieldError";
+
+export interface ResponseEntity<T = any> {
+  token(token: any): unknown;
   status: number;
   message: string;
   data: T;

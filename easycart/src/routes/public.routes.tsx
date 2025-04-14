@@ -6,7 +6,12 @@ const Stack = createStackNavigator();
 
 const PublicRoutes = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: "fade_from_right",
+      }}
+    >
       <Stack.Screen
         name="login"
         component={Login}

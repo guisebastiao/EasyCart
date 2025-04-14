@@ -1,3 +1,4 @@
+import { ResponseEntity } from "@/types/ResponseEntity";
 import { ItemSchemaType } from "@/schemas/itemSchema";
 import { ItemResponse } from "@/types/ItemResponse";
 import { ItemQuery } from "@/types/ItemQuery";
@@ -39,7 +40,7 @@ export const Update = async (
   itemId: string
 ): Promise<ResponseEntity> => {
   try {
-    const response = await axios.put<ResponseEntity>("/items" + itemId, data);
+    const response = await axios.put<ResponseEntity>("/items/" + itemId, data);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -53,7 +54,7 @@ export const Update = async (
 
 export const Delete = async (itemId: string): Promise<ResponseEntity> => {
   try {
-    const response = await axios.delete<ResponseEntity>("/items" + itemId);
+    const response = await axios.delete<ResponseEntity>("/items/" + itemId);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {

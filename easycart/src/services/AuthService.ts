@@ -1,6 +1,8 @@
 import { RefreshTokenSchemaType } from "@/schemas/refreshTokenSchema";
 import { RegisterSchemaType } from "@/schemas/RegisterSchema";
 import { LoginSchemaType } from "@/schemas/loginSchema";
+import { ResponseEntity } from "@/types/ResponseEntity";
+import { AuthResponse } from "@/types/AuthResponse";
 import { axios } from "@/api/axios";
 import { AxiosError } from "axios";
 

@@ -1,3 +1,4 @@
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryProvider } from "@/context/QueryContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -9,14 +10,16 @@ import Routes from "@/routes";
 export default function App() {
   return (
     <SafeAreaProvider style={{ backgroundColor: colors.gray_600 }}>
-      <AuthProvider>
+      <GestureHandlerRootView>
         <QueryProvider>
-          <AxiosInteceptor>
-            <Routes />
-            <Toast />
-          </AxiosInteceptor>
+          <AuthProvider>
+            <AxiosInteceptor>
+              <Routes />
+              <Toast />
+            </AxiosInteceptor>
+          </AuthProvider>
         </QueryProvider>
-      </AuthProvider>
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }

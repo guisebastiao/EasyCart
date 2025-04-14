@@ -1,8 +1,9 @@
-import { colors } from "@/styles/colors";
-import { Animated, Pressable, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { CheckButtonProps } from "@/types/CheckButtonProps";
+import { styles } from "@/components/CheckButton/style";
+import { Animated, Pressable } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef } from "react";
+import { colors } from "@/styles/colors";
 
 const CheckButton = ({ active, ...rest }: CheckButtonProps) => {
   const scaleAnim = useRef(new Animated.Value(0)).current;
@@ -61,22 +62,5 @@ const CheckButton = ({ active, ...rest }: CheckButtonProps) => {
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    width: 24,
-    height: 24,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    borderRadius: 5,
-    borderWidth: 1,
-  },
-  pressable: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default CheckButton;

@@ -2,8 +2,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProtectedRoutes from "@/routes/protected.routes";
 import { useAuthContext } from "@/context/AuthContext";
-import PageLoading from "@/components/PageLoading";
 import PublicRoutes from "@/routes/public.routes";
+import Splash from "@/components/Splash";
+import { theme } from "@/styles/theme";
 import { useFonts } from "expo-font";
 
 const Stack = createStackNavigator();
@@ -16,11 +17,11 @@ const Routes = () => {
   });
 
   if (!fontsLoaded || isAuthenticated === null) {
-    return <PageLoading />;
+    return <Splash />;
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,

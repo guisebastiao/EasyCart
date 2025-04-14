@@ -1,4 +1,5 @@
 import { QuantityInputProps } from "@/types/QuantityInputProps";
+import { styles } from "@/components/QuantityInput/style";
 import { Ionicons } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 import { colors } from "@/styles/colors";
@@ -7,7 +8,6 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
   Animated,
   Pressable,
@@ -16,10 +16,12 @@ import {
 const units = Object.keys(Units);
 
 export const QuantityInput = ({
-  value,
+  quantity,
   unit,
-  onChangeValue,
+  onChangeQuantity,
   onChangeUnit,
+  msgError,
+  dropDownUp = false,
   ...rest
 }: QuantityInputProps) => {
   const [showUnits, setShowUnits] = useState(false);
@@ -48,9 +50,27 @@ export const QuantityInput = ({
     setShowUnits(!showUnits);
   };
 
+  const handleSelectUnit = (item: Units) => {
+    onChangeUnit(item);
+
+    Animated.timing(animatedHeight, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start(() => {
+      setShowUnits(false);
+    });
+  };
+
   const rotateInterpolate = rotateAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ["0deg", "180deg"],
+    outputRange: dropDownUp ? ["180deg", "0deg"] : ["0deg", "180deg"],
+  });
+
+  const dropdownOpacity = animatedHeight.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+    extrapolate: "clamp",
   });
 
   return (
@@ -62,12 +82,12 @@ export const QuantityInput = ({
             styles.input,
             isFocused && { borderColor: colors.purple_light },
           ]}
-          keyboardType="numeric"
-          value={String(value)}
+          keyboardType="decimal-pad"
+          value={String(quantity)}
           cursorColor={colors.gray_100}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          onChangeText={(e) => onChangeValue(e)}
+          onChangeText={(e) => onChangeQuantity(Number(e))}
           {...rest}
         />
         <Pressable
@@ -90,11 +110,15 @@ export const QuantityInput = ({
           </Animated.View>
         </Pressable>
       </View>
+      {msgError && <Text style={styles.error}>{msgError.message}</Text>}
       <Animated.View
         style={[
           styles.dropdown,
-          { height: animatedHeight },
-          showUnits && { borderWidth: 1 },
+          {
+            height: animatedHeight,
+            opacity: dropdownOpacity,
+            ...(dropDownUp ? { bottom: 44 } : { top: 72 }),
+          },
         ]}
       >
         {units.map((item) => (
@@ -104,17 +128,7 @@ export const QuantityInput = ({
               styles.select,
               unit === item && { backgroundColor: colors.gray_300 },
             ]}
-            onPress={() => {
-              onChangeUnit(item as Units);
-
-              Animated.timing(animatedHeight, {
-                toValue: 0,
-                duration: 200,
-                useNativeDriver: false,
-              }).start(() => {
-                setShowUnits(false);
-              });
-            }}
+            onPress={() => handleSelectUnit(item as Units)}
           >
             <Text style={styles.selectText}>{item}</Text>
             {item === unit && (
@@ -130,73 +144,3 @@ export const QuantityInput = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-  label: {
-    color: colors.gray_200,
-    marginBottom: 8,
-  },
-  container: {
-    position: "relative",
-    flexDirection: "row",
-  },
-  input: {
-    width: "80%",
-    fontFamily: "Inter_400Regular",
-    color: colors.gray_100,
-    borderTopLeftRadius: 6,
-    borderBottomLeftRadius: 6,
-    paddingHorizontal: 12,
-    backgroundColor: colors.gray_500,
-    borderColor: colors.gray_300,
-    borderWidth: 1,
-  },
-  unitButton: {
-    width: "20%",
-    paddingHorizontal: 12,
-    backgroundColor: colors.gray_500,
-    borderColor: colors.gray_300,
-    borderBottomRightRadius: 6,
-    borderTopRightRadius: 6,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderLeftWidth: 0,
-    borderWidth: 1,
-    gap: 4,
-  },
-  unitText: {
-    fontFamily: "Inter",
-    fontWeight: "500",
-    color: colors.gray_200,
-  },
-  dropdown: {
-    position: "absolute",
-    top: 70,
-    right: 0,
-    height: 0,
-    width: "20%",
-    borderRadius: 6,
-    elevation: 10,
-    backgroundColor: colors.gray_600,
-    borderColor: colors.gray_300,
-    overflow: "hidden",
-    zIndex: 10000,
-  },
-  select: {
-    width: "100%",
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    gap: 8,
-  },
-  selectText: {
-    fontFamily: "Inter",
-    fontWeight: "500",
-    color: colors.gray_200,
-  },
-});

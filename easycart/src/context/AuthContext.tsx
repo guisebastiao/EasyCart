@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContextProps } from "@/types/AuthContextProps";
+import { queryClient } from "@/api/queryClient";
 import {
   createContext,
   useState,
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const logout = async () => {
     await AsyncStorage.removeItem("@auth_token");
+    queryClient.clear();
     setAuthenticated(false);
   };
 

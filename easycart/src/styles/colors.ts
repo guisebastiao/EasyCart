@@ -9,5 +9,6 @@ export const colors = {
   gray_600: "#090909",
   placeholderColor: "#68666B",
   errorColor: "#EF4444",
+  buttonDeleteColor: "#EF44441A",
   successColor: "#22C55E",
 };

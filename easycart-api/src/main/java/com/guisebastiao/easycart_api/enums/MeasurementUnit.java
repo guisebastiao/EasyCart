@@ -8,7 +8,7 @@ public enum MeasurementUnit {
     G,
     L,
     ML,
-    UNIT;
+    UN;
 
 
     public static MeasurementUnit fromString(String value) {

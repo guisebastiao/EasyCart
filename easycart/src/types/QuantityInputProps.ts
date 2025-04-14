@@ -1,9 +1,12 @@
 import { TextInputProps } from "react-native";
-import { Units } from "./Units";
+import { FieldError } from "react-hook-form";
+import { Units } from "@/types/Units";
 
 export interface QuantityInputProps extends TextInputProps {
-  value: string;
+  quantity: number;
   unit: Units;
-  onChangeValue: (value: string) => void;
+  onChangeQuantity: (value: number) => void;
   onChangeUnit: (unit: Units) => void;
+  msgError?: FieldError | null;
+  dropDownUp?: boolean;
 }

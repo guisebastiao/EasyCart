@@ -5,40 +5,40 @@ import { LoginSchemaType } from "@/schemas/loginSchema";
 import { useMutation } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
-export const login = () => {
+export const useLogin = () => {
   return useMutation({
     mutationFn: (data: LoginSchemaType) => Login(data),
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Something went wrong",
+        text1: "Something went wrong",
+        text2: error.message,
       });
     },
   });
 };
 
-export const register = () => {
+export const useRegister = () => {
   return useMutation({
     mutationFn: (data: RegisterSchemaType) => Register(data),
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Something went wrong",
+        text1: "Something went wrong",
+        text2: error.message,
       });
     },
   });
 };
 
-export const refreshToken = () => {
+export const useRefreshToken = () => {
   return useMutation({
     mutationFn: (data: RefreshTokenSchemaType) => RefreshToken(data),
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Something went wrong",
+        text1: "Something went wrong",
+        text2: error.message,
       });
     },
   });
