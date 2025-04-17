@@ -15,7 +15,7 @@ export const useFormatUnit = (unity: Units) => {
       return "Litro";
     }
     case Units.ML: {
-      return "Mililitros";
+      return "Mililitro";
     }
     default: {
       return unity;

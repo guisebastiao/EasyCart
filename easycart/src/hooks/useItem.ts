@@ -1,15 +1,14 @@
 import { Create, FindAll, Update, Delete } from "@/services/ItemService";
 import { useMutation, useInfiniteQuery } from "@tanstack/react-query";
 import { ResponseEntity } from "@/types/ResponseEntity";
-import { ItemSchemaType } from "@/schemas/itemSchema";
+import { ItemCreateSchema, ItemEditSchema } from "@/schemas/ItemSchema";
 import { ItemResponse } from "@/types/ItemResponse";
 import { queryClient } from "@/api/queryClient";
 import Toast from "react-native-toast-message";
-import { useEffect } from "react";
 
 export const useCreateItem = () => {
   return useMutation({
-    mutationFn: (data: ItemSchemaType) => {
+    mutationFn: (data: ItemCreateSchema) => {
       return Create(data);
     },
     onSuccess: () => {
@@ -18,7 +17,7 @@ export const useCreateItem = () => {
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: "Something went wrong",
+        text1: "Algo deu errado",
         text2: error.message,
       });
     },
@@ -38,7 +37,7 @@ export const useFindAllItems = () => {
     throwOnError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: "Something went wrong",
+        text1: "Algo deu errado",
         text2: error.message,
       });
 
@@ -55,7 +54,7 @@ export const useUpdateItem = () => {
       data,
       itemId,
     }: {
-      data: ItemSchemaType;
+      data: ItemEditSchema;
       itemId: string;
     }) => {
       return Update(data, itemId);
@@ -63,7 +62,7 @@ export const useUpdateItem = () => {
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: "Something went wrong",
+        text1: "Algo deu errado",
         text2: error.message,
       });
     },
@@ -81,7 +80,7 @@ export const useDeleteItem = () => {
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: "Something went wrong",
+        text1: "Algo deu errado",
         text2: error.message,
       });
     },

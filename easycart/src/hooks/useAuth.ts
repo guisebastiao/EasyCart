@@ -1,17 +1,17 @@
 import { Login, Register, RefreshToken } from "@/services/AuthService";
-import { RefreshTokenSchemaType } from "@/schemas/refreshTokenSchema";
-import { RegisterSchemaType } from "@/schemas/RegisterSchema";
-import { LoginSchemaType } from "@/schemas/loginSchema";
+import { RefreshTokenSchema } from "@/schemas/RefreshTokenSchema";
+import { RegisterSchema } from "@/schemas/RegisterSchema";
+import { LoginSchema } from "@/schemas/LoginSchema";
 import { useMutation } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: (data: LoginSchemaType) => Login(data),
+    mutationFn: (data: LoginSchema) => Login(data),
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: "Something went wrong",
+        text1: "Algo deu errado",
         text2: error.message,
       });
     },
@@ -20,11 +20,11 @@ export const useLogin = () => {
 
 export const useRegister = () => {
   return useMutation({
-    mutationFn: (data: RegisterSchemaType) => Register(data),
+    mutationFn: (data: RegisterSchema) => Register(data),
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: "Something went wrong",
+        text1: "Algo deu errado",
         text2: error.message,
       });
     },
@@ -33,11 +33,11 @@ export const useRegister = () => {
 
 export const useRefreshToken = () => {
   return useMutation({
-    mutationFn: (data: RefreshTokenSchemaType) => RefreshToken(data),
+    mutationFn: (data: RefreshTokenSchema) => RefreshToken(data),
     onError: (error: Error) => {
       Toast.show({
         type: "error",
-        text1: "Something went wrong",
+        text1: "Algo deu errado",
         text2: error.message,
       });
     },

@@ -1,9 +1,12 @@
-import { CheckButtonProps } from "@/types/CheckButtonProps";
+import { Animated, Pressable, PressableProps } from "react-native";
 import { styles } from "@/components/CheckButton/style";
-import { Animated, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef } from "react";
 import { colors } from "@/styles/colors";
+
+export interface CheckButtonProps extends PressableProps {
+  active: boolean;
+}
 
 const CheckButton = ({ active, ...rest }: CheckButtonProps) => {
   const scaleAnim = useRef(new Animated.Value(0)).current;

@@ -15,7 +15,7 @@ public class HealthController {
     public ResponseEntity<ResponseEntityDTO> health() {
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.OK.value());
-        response.setMessage("Api is running");
+        response.setMessage("A API esta rodando");
         response.setSuccess(Boolean.TRUE);
         return ResponseEntity.status(response.getStatus()).body(response);
     }

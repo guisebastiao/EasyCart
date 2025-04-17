@@ -1,10 +1,11 @@
-import { LoginSchemaType, loginSchema } from "@/schemas/loginSchema";
-import { AppStackParamList } from "@/types/NavegationProps";
+import { classValidatorResolver } from "@hookform/resolvers/class-validator";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import imgHeader from "../../../assets/img-header.png";
 import { useAuthContext } from "@/context/AuthContext";
 import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema } from "@/schemas/LoginSchema";
+import { PublicStackRoutes } from "@/routes/index";
 import { Text, View, Image } from "react-native";
 import { styles } from "@/pages/Login/style";
 import { useLogin } from "@/hooks/useAuth";
@@ -12,9 +13,12 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useEffect } from "react";
 
+const RESET_FIELD_TIME = 3000;
+type NavigationProp = StackNavigationProp<PublicStackRoutes>;
+
 const Login = () => {
-  const form = useForm<LoginSchemaType>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<LoginSchema>({
+    resolver: classValidatorResolver(LoginSchema),
     mode: "onChange",
   });
 
@@ -22,19 +26,31 @@ const Login = () => {
 
   const { mutate, isPending, isSuccess, data: response } = useLogin();
 
-  const navegation = useNavigation<AppStackParamList>();
+  const navegation = useNavigation<NavigationProp>();
 
   const handleLogin = async () => {
     const data = form.getValues();
     mutate(data);
+    form.reset();
   };
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(isSuccess, response.data.token);
       authenticate(response.data.token);
     }
   }, [isSuccess]);
+
+  const { errors } = form.formState;
+
+  useEffect(() => {
+    if (errors.email || errors.password) {
+      const timeout = setTimeout(() => {
+        form.clearErrors();
+      }, RESET_FIELD_TIME);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [errors, form]);
 
   return (
     <View style={styles.container}>
@@ -43,7 +59,7 @@ const Login = () => {
         source={imgHeader}
         resizeMode="contain"
       />
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Entrar</Text>
       <View style={styles.inputs}>
         <Controller
           control={form.control}
@@ -51,10 +67,11 @@ const Login = () => {
           render={({ field, fieldState }) => (
             <Input
               type="text"
-              name="E-mail"
-              msgError={fieldState.error}
+              label="E-mail"
+              value={field.value}
+              fieldError={fieldState.error}
               onChangeText={field.onChange}
-              placeholder="Enter your e-mail"
+              placeholder="Digite seu e-mail"
             />
           )}
         />
@@ -64,10 +81,11 @@ const Login = () => {
           render={({ field, fieldState }) => (
             <Input
               type="password"
-              name="Password"
-              msgError={fieldState.error}
+              label="Senha"
+              value={field.value}
+              fieldError={fieldState.error}
               onChangeText={field.onChange}
-              placeholder="Enter your password"
+              placeholder="Digite sua senha"
             />
           )}
         />
@@ -75,21 +93,26 @@ const Login = () => {
       <View style={styles.buttons}>
         <Button
           type="default"
-          name="Login"
+          name="Entrar"
           style={styles.button}
           onPress={form.handleSubmit(handleLogin)}
           isLoading={isPending}
         />
         <Button
           type="secondary"
-          name="Register"
+          name="Registrar"
           style={styles.button}
           onPress={() => navegation.navigate("register")}
           disabled={isPending}
         />
       </View>
       <View style={styles.forgot}>
-        <Text style={styles.forgotText}>Forgot my password</Text>
+        <Text
+          style={styles.forgotText}
+          onPress={() => navegation.navigate("forgot")}
+        >
+          Esquici minha senha
+        </Text>
       </View>
     </View>
   );

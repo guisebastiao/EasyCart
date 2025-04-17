@@ -34,11 +34,11 @@ public class AuthService {
         Optional<User> user = this.userRepository.findByEmail(dto.getEmail());
 
         if (user.isEmpty()) {
-            throw new EntityNotFoundException("Account not already exists");
+            throw new EntityNotFoundException("Essa conta não está cadastrada");
         }
 
         if (!passwordEncoder.matches(dto.getPassword(), user.get().getPassword())) {
-            throw new RequiredAuthenticationException("Invalid credentials");
+            throw new RequiredAuthenticationException("Credenciais incorretas");
         }
 
         String token = this.tokenService.generateToken(user.get());
@@ -48,7 +48,7 @@ public class AuthService {
 
         ResponseEntityDTO responseDTO = new ResponseEntityDTO();
         responseDTO.setStatus(HttpStatus.OK.value());
-        responseDTO.setMessage("Login Successful");
+        responseDTO.setMessage("Login concluido com sucesso");
         responseDTO.setData(authResponseDTO);
         responseDTO.setSuccess(Boolean.TRUE);
 
@@ -59,7 +59,7 @@ public class AuthService {
         Optional<User> existUser = this.userRepository.findByEmail(dto.getEmail());
 
         if (existUser.isPresent()) {
-            throw new DuplicateEntityException("Account already exists");
+            throw new DuplicateEntityException("Essa conta já está cadastrada");
         }
 
         User user = new User();
@@ -77,7 +77,7 @@ public class AuthService {
         ResponseEntityDTO responseDTO = new ResponseEntityDTO();
 
         responseDTO.setStatus(HttpStatus.CREATED.value());
-        responseDTO.setMessage("Registration Successful");
+        responseDTO.setMessage("Cadastro concluido com sucesso");
         responseDTO.setData(authResponseDTO);
         responseDTO.setSuccess(Boolean.TRUE);
 
@@ -85,16 +85,16 @@ public class AuthService {
     }
 
     public ResponseEntityDTO refreshToken(RefreshTokenDTO dto) {
-        String login = this.tokenService.validateToken(dto.getToken());
+        String login = this.tokenService.getSubjectFromTokenEvenIfExpired(dto.getToken());
 
         if (login == null) {
-            throw new RequiredAuthenticationException("Please login again");
+            throw new RequiredAuthenticationException("Por favor faça o login novamente");
         }
 
         Optional<User> user = this.userRepository.findById(UUID.fromString(login));
 
         if (user.isEmpty()) {
-            throw new RequiredAuthenticationException("Please login again");
+            throw new RequiredAuthenticationException("Por favor faça o login novamente");
         }
 
         String newToken = this.tokenService.generateToken(user.get());
@@ -104,7 +104,7 @@ public class AuthService {
 
         ResponseEntityDTO responseDTO = new ResponseEntityDTO();
         responseDTO.setStatus(HttpStatus.OK.value());
-        responseDTO.setMessage("Refresh Token Successful");
+        responseDTO.setMessage("Sua autenticação foi atualizada com sucesso");
         responseDTO.setData(authResponseDTO);
         responseDTO.setSuccess(Boolean.TRUE);
 

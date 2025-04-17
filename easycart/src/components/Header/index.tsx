@@ -17,17 +17,17 @@ const Header = () => {
         resizeMode="contain"
       />
       <View style={styles.header}>
-        <Text style={styles.title}>EasyCart</Text>
+        <Text style={styles.title}>Lista de Compras</Text>
         <Button
           type="secondary"
           icon={
             <Ionicons
               name="log-out-outline"
-              size={24}
+              size={18}
               color={colors.errorColor}
             />
           }
-          style={{ paddingHorizontal: 0, width: 40 }}
+          style={styles.button}
           onPress={() => logout()}
         />
       </View>

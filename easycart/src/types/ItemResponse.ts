@@ -1,6 +1,6 @@
-import { Units } from "./Units";
+import { Units } from "@/types/Units";
 
-export interface ItemResponse {
+export class ItemResponse {
   id: string;
   content: string;
   quantity: number;

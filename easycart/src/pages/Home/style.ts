@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import { colors } from "@/styles/colors";
 
 const DIMENSIONS = Dimensions.get("window");
-const HEIGHT_CONTENT = DIMENSIONS.height - 270;
+const HEIGHT_CONTENT = DIMENSIONS.height - 273;
 
 export const styles = StyleSheet.create({
   main: {
@@ -20,5 +20,6 @@ export const styles = StyleSheet.create({
   content: {
     width: "100%",
     height: HEIGHT_CONTENT,
+    paddingBottom: 5,
   },
 });

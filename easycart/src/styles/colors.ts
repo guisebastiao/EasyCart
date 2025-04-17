@@ -7,8 +7,8 @@ export const colors = {
   gray_400: "#171719",
   gray_500: "#111112",
   gray_600: "#090909",
+  gray_600_transparent: "#090909E6",
   placeholderColor: "#68666B",
   errorColor: "#EF4444",
-  buttonDeleteColor: "#EF44441A",
   successColor: "#22C55E",
 };

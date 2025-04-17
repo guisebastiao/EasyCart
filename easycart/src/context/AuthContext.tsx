@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContextProps } from "@/types/AuthContextProps";
 import { queryClient } from "@/api/queryClient";
 import {
   createContext,
@@ -8,6 +7,13 @@ import {
   useContext,
   useEffect,
 } from "react";
+
+interface AuthContextProps {
+  isAuthenticated: boolean | null;
+  authenticate: (token: string) => void;
+  token: string | null;
+  logout: () => Promise<void>;
+}
 
 export const AuthContext = createContext<AuthContextProps | undefined>(
   undefined

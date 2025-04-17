@@ -22,8 +22,8 @@ public class ResetPasswordController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-    @PutMapping("{token}")
-    public ResponseEntity<ResponseEntityDTO> resetPassword(@PathVariable String token, @RequestBody @Valid ResetPasswordDTO dto) {
+    @PutMapping()
+    public ResponseEntity<ResponseEntityDTO> resetPassword(@RequestParam String token, @RequestBody @Valid ResetPasswordDTO dto) {
         ResponseEntityDTO response = resetPasswordService.resetPassword(token, dto);
         return ResponseEntity.status(response.getStatus()).body(response);
     }

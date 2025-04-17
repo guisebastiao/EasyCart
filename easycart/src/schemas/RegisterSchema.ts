@@ -1,24 +1,33 @@
-import { z } from "zod";
+import { MatchPasswords } from "./MatchPassword";
+import {
+  IsEmail,
+  IsNotEmpty,
+  MinLength,
+  MaxLength,
+  Validate,
+} from "class-validator";
 
-export const registerSchema = z
-  .object({
-    email: z
-      .string({ message: "The characters you entered are not supported" })
-      .nonempty("Please enter your e-mail")
-      .max(250, "The e-mail is outside the allowed length")
-      .email("The e-mail is invalid, please, enter valid e-mail"),
-    password: z
-      .string({ message: "The characters you entered are not supported" })
-      .min(8, "The password must have at least 8 characters")
-      .max(20, "The password can´t have more than 20 characters"),
-    passwordConfirm: z
-      .string({ message: "The characters you entered are not supported" })
-      .min(8, "The password confirmation must have at least 8 characters")
-      .max(20, "The password confirmation can’t have more than 20 characters"),
+export class RegisterSchema {
+  @IsNotEmpty({ message: "Por favor insira seu e-mail" })
+  @IsEmail(
+    {},
+    { message: "O e-mail é inválido, por favor, insira um e-mail válido" }
+  )
+  @MaxLength(250, { message: "O e-mail está fora do comprimento permitido" })
+  email: string;
+
+  @IsNotEmpty({ message: "Por favor insira sua senha" })
+  @MinLength(8, { message: "A senha deve ter pelo menos 8 caracteres" })
+  @MaxLength(20, { message: "A senha não pode ter mais de 20 caracteres" })
+  password: string;
+
+  @IsNotEmpty({ message: "Por favor confirme sua senha" })
+  @MinLength(8, {
+    message: "A confirmação da senha deve ter pelo menos 8 caracteres",
   })
-  .refine((data) => data.password === data.passwordConfirm, {
-    path: ["passwordConfirm"],
-    message: "Passwords do not match",
-  });
-
-export type RegisterSchemaType = z.infer<typeof registerSchema>;
+  @MaxLength(20, {
+    message: "A confirmação da senha não pode ter mais de 20 caracteres",
+  })
+  @Validate(MatchPasswords)
+  passwordConfirm: string;
+}

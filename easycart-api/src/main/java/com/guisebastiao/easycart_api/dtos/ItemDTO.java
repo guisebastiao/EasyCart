@@ -15,19 +15,19 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ItemDTO {
-    @NotBlank(message = "Please enter content")
-    @Length(max = 100, message = "The content can´t have more than 100 characters")
+    @NotBlank(message = "Digite a descrição do item")
+    @Length(max = 100, message = "A descrição não pode ter mais de 100 caracteres")
     private String content;
 
-    @DecimalMin(value = "0.01", message = "Quantity must be greater than zero")
-    @Digits(integer = 6, fraction = 2, message = "quantity is too long")
-    @NotNull(message = "Please enter quantity")
+    @DecimalMin(value = "0.01", message = "A quantidade deve ser maior que zero")
+    @Digits(integer = 6, fraction = 2, message = "a quantidade é muito longa")
+    @NotNull(message = "Insira a quantidade")
     private BigDecimal quantity;
 
-    @ValueOfEnum(enumClass = MeasurementUnit.class, message = "The item type value is invalid")
-    @NotNull(message = "Please enter measurement unit")
+    @ValueOfEnum(enumClass = MeasurementUnit.class, message = "O valor do tipo do item esta inválido")
+    @NotNull(message = "Insira uma unidade de medida")
     private String measurementUnit;
 
-    @NotNull(message = "Please indicate if the item is complete")
+    @NotNull(message = "Por favor indique se o item está completo")
     private Boolean complete;
 }

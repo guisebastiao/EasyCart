@@ -13,7 +13,7 @@ public class AuthUtil {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RequiredAuthenticationException("Please login again");
+            throw new RequiredAuthenticationException("Por favor faça o login novamente");
         }
 
         return (User) authentication.getPrincipal();

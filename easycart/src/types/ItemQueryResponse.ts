@@ -1,4 +1,4 @@
-export interface ItemQuery {
+export interface ItemQueryResponse {
   offset: number;
   limit: number;
 }

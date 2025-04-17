@@ -1,42 +1,33 @@
 import { StyleSheet } from "react-native";
 import { colors } from "@/styles/colors";
 
+export const SPACE_DROPDOWN = 40;
+
 export const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
-  },
-  label: {
-    fontFamily: "Inter",
-    fontWeight: "400",
-    fontSize: 15,
-    color: colors.gray_200,
-    marginBottom: 8,
+    width: "100%",
+    height: 40,
   },
   container: {
     position: "relative",
     flexDirection: "row",
   },
-  input: {
-    width: "80%",
-    fontFamily: "Inter_400Regular",
-    color: colors.gray_100,
-    borderTopLeftRadius: 6,
-    borderBottomLeftRadius: 6,
-    paddingHorizontal: 12,
-    backgroundColor: colors.gray_500,
-    borderColor: colors.gray_300,
-    borderWidth: 1,
+  showUnit: {
+    borderColor: colors.purple_light,
+    borderLeftWidth: 1,
   },
   unitButton: {
-    width: "20%",
+    width: "100%",
+    height: 40,
     paddingHorizontal: 12,
-    backgroundColor: colors.gray_500,
+    backgroundColor: colors.gray_400,
     borderColor: colors.gray_300,
     borderBottomRightRadius: 6,
     borderTopRightRadius: 6,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    borderStartColor: colors.gray_300,
     borderLeftWidth: 0,
     borderWidth: 1,
     gap: 4,
@@ -48,10 +39,9 @@ export const styles = StyleSheet.create({
   },
   dropdown: {
     position: "absolute",
-    // top: 72,
-    right: 0,
+    left: 0,
     height: 0,
-    width: "20%",
+    width: "100%",
     borderRadius: 6,
     backgroundColor: colors.gray_600,
     borderColor: colors.gray_300,
@@ -71,11 +61,5 @@ export const styles = StyleSheet.create({
     fontFamily: "Inter",
     fontWeight: "500",
     color: colors.gray_200,
-  },
-  error: {
-    color: colors.errorColor,
-    marginTop: 5,
-    fontSize: 15,
-    paddingLeft: 5,
   },
 });

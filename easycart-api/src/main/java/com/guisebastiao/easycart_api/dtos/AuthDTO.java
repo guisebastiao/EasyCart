@@ -12,13 +12,13 @@ import java.util.UUID;
 @Setter
 public class AuthDTO {
 
-    @NotBlank(message = "Please enter your e-mail")
-    @Size(max = 250, message = "The e-mail is outside the allowed length")
-    @Email(message = "The e-mail is invalid, please, enter valid e-mail")
+    @NotBlank(message = "Digite seu e-mail")
+    @Size(max = 250, message = "O e-mail está fora do tamanho permitido")
+    @Email(message = "E-mail inválido, insira um e-mail válido")
     private String email;
 
-    @NotBlank(message = "Please enter your password")
-    @Size(min = 8, message = "The password must have at least 8 characters")
-    @Size(max = 20, message = "The password can´t have more than 20 characters")
+    @NotBlank(message = "Digite sua senha")
+    @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres")
+    @Size(max = 20, message = "A senha não pode ter mais de 20 caracteres")
     private String password;
 }

@@ -1,30 +1,20 @@
-import CreateItemForm from "@/components/CreateItemForm";
+import CreateItemForm from "@/components/CreateItem";
 import { ItemResponse } from "@/types/ItemResponse";
 import { useFindAllItems } from "@/hooks/useItem";
 import { View, FlatList } from "react-native";
+import EditItem from "@/components/EditItem";
 import { styles } from "@/pages/Home/style";
 import Loading from "@/components/Loading";
 import Header from "@/components/Header";
-import Item from "@/components/Item";
 import Sheet from "@/components/Sheet";
-import { useEffect, useState } from "react";
+import Item from "@/components/Item";
+import { useState } from "react";
 
 const Home = () => {
-  const [editItem, setEditItem] = useState<ItemResponse | null>(null);
-  const [sheetIsOpen, setSheetIsOpen] = useState<boolean>(false);
+  const [item, setItem] = useState<ItemResponse | null>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFindAllItems();
-
-  useEffect(() => {
-    if (editItem !== null) {
-      setSheetIsOpen(true);
-    } else {
-      setSheetIsOpen(false);
-    }
-  }, [editItem]);
-
-  console.log(sheetIsOpen);
 
   return (
     <View style={styles.main}>
@@ -39,19 +29,14 @@ const Home = () => {
               data={data?.pages.flatMap((page) => page.data) ?? []}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }: { item: ItemResponse }) => (
+              renderItem={({ item }) => (
                 <Item
-                  id={item.id}
-                  content={item.content}
-                  quantity={item.quantity}
-                  measurementUnit={item.measurementUnit}
-                  complete={item.complete}
-                  editItem={editItem}
-                  setEditItem={setEditItem}
+                  {...item}
+                  onEdit={() => setItem(item)}
                 />
               )}
               onEndReached={() => {
-                if (hasNextPage) {
+                if (hasNextPage && !isFetchingNextPage) {
                   fetchNextPage();
                 }
               }}
@@ -62,15 +47,17 @@ const Home = () => {
           )}
         </View>
       </View>
-      {sheetIsOpen && (
-        <Sheet
-          id={editItem?.id}
-          content={editItem?.content}
-          quantity={editItem?.quantity}
-          measurementUnit={editItem?.measurementUnit}
-          complete={editItem?.complete}
-          onClose={setSheetIsOpen}
-        />
+      {item && (
+        <Sheet onClose={() => setItem(null)}>
+          <EditItem
+            id={item.id}
+            content={item.content}
+            quantity={item.quantity}
+            measurementUnit={item.measurementUnit}
+            complete={item.complete}
+            onClose={() => setItem(null)}
+          />
+        </Sheet>
       )}
     </View>
   );

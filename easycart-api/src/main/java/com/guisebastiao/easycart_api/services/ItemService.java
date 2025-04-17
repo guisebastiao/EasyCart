@@ -38,7 +38,7 @@ public class ItemService {
 
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.OK.value());
-        response.setMessage("Item created successfully");
+        response.setMessage("Item criado com sucesso");
         response.setSuccess(true);
 
         return response;
@@ -74,7 +74,7 @@ public class ItemService {
 
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.OK.value());
-        response.setMessage("Returned items");
+        response.setMessage("Items retornados com sucesso");
         response.setSuccess(true);
         response.setData(responseList);
         response.setPaging(paging);
@@ -86,7 +86,7 @@ public class ItemService {
         Optional<Item> item = this.itemRepository.findById(UUID.fromString(id));
 
         if (item.isEmpty()) {
-           throw new EntityNotFoundException("Item not found");
+           throw new EntityNotFoundException("Item não encontrado");
         }
 
         Item itemEntity = item.get();
@@ -101,7 +101,7 @@ public class ItemService {
 
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.OK.value());
-        response.setMessage("Item updated successfully");
+        response.setMessage("Item atualizado com sucesso");
         response.setSuccess(true);
         return response;
     }
@@ -110,14 +110,14 @@ public class ItemService {
         Optional<Item> item = this.itemRepository.findById(UUID.fromString(id));
 
         if (item.isEmpty()) {
-            throw new EntityNotFoundException("Item not found");
+            throw new EntityNotFoundException("Item não encontrado");
         }
 
         this.itemRepository.delete(item.get());
 
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.OK.value());
-        response.setMessage("Item deleted successfully");
+        response.setMessage("Item deletedo com sucesso");
         response.setSuccess(true);
         return response;
     }

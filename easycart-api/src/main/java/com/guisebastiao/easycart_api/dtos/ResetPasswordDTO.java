@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 public class ResetPasswordDTO {
 
-    @NotBlank(message = "Please enter your password")
-    @Size(min = 8, message = "The password must have at least 8 characters")
-    @Size(max = 20, message = "The password can´t have more than 20 characters")
+    @NotBlank(message = "Digite sua senha")
+    @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres")
+    @Size(max = 20, message = "A senha não pode ter mais de 20 caracteres")
     private String password;
 }

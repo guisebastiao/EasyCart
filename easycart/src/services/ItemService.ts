@@ -1,11 +1,13 @@
+import { ItemCreateSchema, ItemEditSchema } from "@/schemas/ItemSchema";
+import { ItemQueryResponse } from "@/types/ItemQueryResponse";
 import { ResponseEntity } from "@/types/ResponseEntity";
-import { ItemSchemaType } from "@/schemas/itemSchema";
 import { ItemResponse } from "@/types/ItemResponse";
-import { ItemQuery } from "@/types/ItemQuery";
 import { axios } from "@/api/axios";
 import { AxiosError } from "axios";
 
-export const Create = async (data: ItemSchemaType): Promise<ResponseEntity> => {
+export const Create = async (
+  data: ItemCreateSchema
+): Promise<ResponseEntity> => {
   try {
     const response = await axios.post<ResponseEntity>("/items", data);
     return response.data;
@@ -15,11 +17,13 @@ export const Create = async (data: ItemSchemaType): Promise<ResponseEntity> => {
       throw new Error(message);
     }
 
-    throw new Error("An unexpected error occurred");
+    throw new Error("Ocorreu um erro inesperado");
   }
 };
 
-export const FindAll = async (query: ItemQuery): Promise<ResponseEntity> => {
+export const FindAll = async (
+  query: ItemQueryResponse
+): Promise<ResponseEntity<ItemResponse>> => {
   try {
     const response = await axios.get<ResponseEntity<ItemResponse>>("/items", {
       params: query,
@@ -31,12 +35,12 @@ export const FindAll = async (query: ItemQuery): Promise<ResponseEntity> => {
       throw new Error(message);
     }
 
-    throw new Error("An unexpected error occurred");
+    throw new Error("Ocorreu um erro inesperado");
   }
 };
 
 export const Update = async (
-  data: ItemSchemaType,
+  data: ItemEditSchema,
   itemId: string
 ): Promise<ResponseEntity> => {
   try {
@@ -48,7 +52,7 @@ export const Update = async (
       throw new Error(message);
     }
 
-    throw new Error("An unexpected error occurred");
+    throw new Error("Ocorreu um erro inesperado");
   }
 };
 
@@ -62,6 +66,6 @@ export const Delete = async (itemId: string): Promise<ResponseEntity> => {
       throw new Error(message);
     }
 
-    throw new Error("An unexpected error occurred");
+    throw new Error("Ocorreu um erro inesperado");
   }
 };

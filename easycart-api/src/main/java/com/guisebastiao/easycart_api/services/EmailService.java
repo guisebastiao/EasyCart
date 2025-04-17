@@ -31,7 +31,7 @@ public class EmailService {
 
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            throw new BadRequestException("Something went wrong, please try again later");
+            throw new BadRequestException("Algo deu errado, tente novamente mais tarde");
         }
     }
 }

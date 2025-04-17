@@ -1,11 +1,26 @@
-import { View, TextInput, Text, Pressable } from "react-native";
 import { styles } from "@/components/Input/style";
-import { InputProps } from "@/types/InputProps";
 import { Ionicons } from "@expo/vector-icons";
+import { FieldError } from "react-hook-form";
 import { colors } from "@/styles/colors";
 import { useState } from "react";
+import {
+  View,
+  TextInput,
+  Text,
+  Pressable,
+  TextInputProps,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 
-const Input = ({ type, name, msgError, ...rest }: InputProps) => {
+interface InputProps extends TextInputProps {
+  type: "text" | "password";
+  fieldError?: FieldError;
+  label: string;
+  style?: StyleProp<ViewStyle>;
+}
+
+const Input = ({ type, label, fieldError, style, ...rest }: InputProps) => {
   const [isVisible, setVisible] = useState(type === "password" ? true : false);
   const [isFocused, setFocused] = useState(false);
 
@@ -15,12 +30,13 @@ const Input = ({ type, name, msgError, ...rest }: InputProps) => {
 
   return (
     <View style={styles.content}>
-      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.name}>{label}</Text>
       <View style={styles.contentInput}>
         <TextInput
           style={[
             styles.input,
-            msgError && { borderColor: colors.errorColor },
+            style,
+            fieldError && { borderColor: colors.errorColor },
             isFocused && { borderColor: colors.purple_light },
           ]}
           secureTextEntry={isVisible}
@@ -52,7 +68,7 @@ const Input = ({ type, name, msgError, ...rest }: InputProps) => {
           </Pressable>
         )}
       </View>
-      {msgError && <Text style={styles.error}>{msgError.message}</Text>}
+      {fieldError && <Text style={styles.error}>{fieldError.message}</Text>}
     </View>
   );
 };

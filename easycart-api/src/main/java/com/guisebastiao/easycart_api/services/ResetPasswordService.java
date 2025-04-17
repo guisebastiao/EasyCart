@@ -28,8 +28,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ResetPasswordService {
 
-    @Value("${api.url}")
-    private String apiUrl;
+    @Value("${app.url}")
+    private String appUrl;
     private final UserRepository userRepository;
     private final ResetPasswordRepository resetPasswordRepository;
     private final PasswordEncoder passwordEncoder;
@@ -40,7 +40,7 @@ public class ResetPasswordService {
         Optional<User> user = userRepository.findByEmail(dto.getEmail());
 
         if (user.isEmpty()) {
-            throw new EntityNotFoundException("The email address provided is not registered");
+            throw new EntityNotFoundException("Esse e-mail não está registrado");
         }
 
         ResetPassword resetPassword = new ResetPassword();
@@ -49,7 +49,7 @@ public class ResetPasswordService {
 
         ResetPassword passwordReset = resetPasswordRepository.save(resetPassword);
 
-        String resetLink = String.format(this.apiUrl + "/reset-password/" + passwordReset.getId());
+        String resetLink = String.format(this.appUrl + "reset-password?token=" + passwordReset.getId());
 
         Context context = new Context();
         context.setVariable("recoveryUrl", resetLink);
@@ -60,7 +60,7 @@ public class ResetPasswordService {
 
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.OK.value());
-        response.setMessage("If the email address provided is registered, you will receive instructions to reset your password");
+        response.setMessage("Você recebeu um email para redefinir sua senha");
         response.setSuccess(Boolean.TRUE);
 
         return response;
@@ -72,7 +72,7 @@ public class ResetPasswordService {
         Optional<ResetPassword> resetPassword = this.resetPasswordRepository.findById(id);
 
         if(resetPassword.isEmpty()) {
-            throw new BadRequestException("Your password reset session has expired or your password has already been changed, please click reset again");
+            throw new BadRequestException("A troca da senha se expirou");
         }
 
         ResetPassword resetPasswordEntity = resetPassword.get();
@@ -88,7 +88,7 @@ public class ResetPasswordService {
 
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.OK.value());
-        response.setMessage("Your password has been reset successfully");
+        response.setMessage("Sua senha foi alterada com sucesso");
         response.setSuccess(Boolean.TRUE);
         return response;
     }

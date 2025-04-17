@@ -5,11 +5,21 @@ import axiosInstance, { AxiosError } from "axios";
 import { useRefreshToken } from "@/hooks/useAuth";
 
 export const axios = axiosInstance.create({
-  baseURL: "http://192.168.18.78:8080",
+  baseURL: "http://192.168.6.101:8080",
 });
 
 export const AxiosInteceptor = ({ children }: PropsWithChildren) => {
   const { isAuthenticated, authenticate, logout, token } = useAuthContext();
+  const { mutateAsync } = useRefreshToken();
+
+  const attemptTokenRefresh = async () => {
+    try {
+      const refreshed = await mutateAsync({ token: token! });
+      authenticate(refreshed.data.token);
+    } catch (error) {
+      logout();
+    }
+  };
 
   useEffect(() => {
     const requestInterceptor = axios.interceptors.request.use(
@@ -36,14 +46,7 @@ export const AxiosInteceptor = ({ children }: PropsWithChildren) => {
         }
 
         if (!data.isAuthenticated && isAuthenticated && token) {
-          try {
-            const { mutateAsync } = useRefreshToken();
-            const refreshed = await mutateAsync({ token });
-            authenticate(refreshed.data.token);
-          } catch (err) {
-            logout();
-            return Promise.reject(err);
-          }
+          await attemptTokenRefresh();
         }
 
         return Promise.reject(error);

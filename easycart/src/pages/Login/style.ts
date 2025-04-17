@@ -22,7 +22,6 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     color: colors.gray_100,
     fontSize: 32,
-    width: "100%",
     textAlign: "left",
   },
   inputs: {

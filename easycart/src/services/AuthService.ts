@@ -1,13 +1,13 @@
-import { RefreshTokenSchemaType } from "@/schemas/refreshTokenSchema";
-import { RegisterSchemaType } from "@/schemas/RegisterSchema";
-import { LoginSchemaType } from "@/schemas/loginSchema";
+import { RefreshTokenSchema } from "@/schemas/RefreshTokenSchema";
+import { RegisterSchema } from "@/schemas/RegisterSchema";
+import { LoginSchema } from "@/schemas/LoginSchema";
 import { ResponseEntity } from "@/types/ResponseEntity";
 import { AuthResponse } from "@/types/AuthResponse";
 import { axios } from "@/api/axios";
 import { AxiosError } from "axios";
 
 export const Login = async (
-  data: LoginSchemaType
+  data: LoginSchema
 ): Promise<ResponseEntity<AuthResponse>> => {
   try {
     const response = await axios.post<ResponseEntity<AuthResponse>>(
@@ -22,12 +22,12 @@ export const Login = async (
       throw new Error(message);
     }
 
-    throw new Error("An unexpected error occurred");
+    throw new Error("Ocorreu um erro inesperado");
   }
 };
 
 export const Register = async (
-  data: RegisterSchemaType
+  data: RegisterSchema
 ): Promise<ResponseEntity<AuthResponse>> => {
   try {
     const response = await axios.post<ResponseEntity<AuthResponse>>(
@@ -41,12 +41,12 @@ export const Register = async (
       throw new Error(message);
     }
 
-    throw new Error("An unexpected error occurred");
+    throw new Error("Ocorreu um erro inesperado");
   }
 };
 
 export const RefreshToken = async (
-  data: RefreshTokenSchemaType
+  data: RefreshTokenSchema
 ): Promise<ResponseEntity<AuthResponse>> => {
   try {
     const response = await axios.post<ResponseEntity<AuthResponse>>(
@@ -60,6 +60,6 @@ export const RefreshToken = async (
       throw new Error(message);
     }
 
-    throw new Error("An unexpected error occurred");
+    throw new Error("Ocorreu um erro inesperado");
   }
 };

@@ -1,7 +1,22 @@
-import { TouchableOpacity, Text } from "react-native";
 import { styles } from "@/components/Button/style";
-import { ButtonProps } from "@/types/ButtonProps";
 import Loading from "@/components/Loading";
+import { ReactNode } from "react";
+import {
+  TouchableOpacityProps,
+  StyleProp,
+  ViewStyle,
+  TouchableOpacity,
+  Text,
+} from "react-native";
+
+interface ButtonProps extends TouchableOpacityProps {
+  type: "default" | "secondary";
+  name?: string;
+  icon?: ReactNode;
+  isLoading?: boolean;
+  isDisabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+}
 
 const Button = ({
   type,

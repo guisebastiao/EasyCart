@@ -30,7 +30,7 @@ public class ResourceExceptionHandler {
 
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
-        response.setMessage("validation error");
+        response.setMessage("Erro de validação");
         response.setFieldErrors(fieldErrorDTOs);
         response.setSuccess(Boolean.FALSE);
         return ResponseEntity.status(response.getStatus()).body(response);
@@ -82,7 +82,7 @@ public class ResourceExceptionHandler {
     public ResponseEntity<ResponseEntityDTO> handleNotFound(NoHandlerFoundException e) {
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.NOT_FOUND.value());
-        response.setMessage("Route not found");
+        response.setMessage("Rota não encontrada");
         response.setSuccess(Boolean.FALSE);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
@@ -93,7 +93,7 @@ public class ResourceExceptionHandler {
         e.printStackTrace();
         ResponseEntityDTO response = new ResponseEntityDTO();
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        response.setMessage("An unexpected error occurred");
+        response.setMessage("Ocorreu um erro inesperado");
         response.setSuccess(Boolean.FALSE);
         return ResponseEntity.status(response.getStatus()).body(response);
     }

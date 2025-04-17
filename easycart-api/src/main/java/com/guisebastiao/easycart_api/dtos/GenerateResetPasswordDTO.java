@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 public class GenerateResetPasswordDTO {
 
-    @NotBlank(message = "Please enter your e-mail")
-    @Size(max = 250, message = "The e-mail is outside the allowed length")
-    @Email(message = "The e-mail is invalid, please, enter valid e-mail")
+    @NotBlank(message = "Digite seu e-mail")
+    @Size(max = 250, message = "O e-mail está fora do tamanho permitido")
+    @Email(message = "E-mail inválido, insira um e-mail válido")
     private String email;
 }

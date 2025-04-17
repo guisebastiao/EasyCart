@@ -1,8 +1,10 @@
 {
   "expo": {
-    "name": "easycart",
+    "name": "EasyCart",
     "slug": "easycart",
     "version": "1.0.0",
+    "scheme": "easycart",
+    "deepLinking": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -18,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#090909"
-      }
+      },
+      "package": "com.guisebastiao.easycart"
     },
     "web": {
       "favicon": "./assets/favicon.png"

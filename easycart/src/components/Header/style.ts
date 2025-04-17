@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     left: 0,
   },
   header: {
+    position: "relative",
     width: "100%",
     height: "10%",
     flexDirection: "row",
@@ -20,5 +21,10 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     color: colors.gray_100,
     fontSize: 32,
+  },
+  button: {
+    width: 35,
+    height: 35,
+    paddingHorizontal: 0,
   },
 });

@@ -1,31 +1,34 @@
+import { Type } from "class-transformer";
 import { Units } from "@/types/Units";
-import { z } from "zod";
+import {
+  IsNumber,
+  IsNotEmpty,
+  Min,
+  Max,
+  IsString,
+  IsEnum,
+  IsBoolean,
+} from "class-validator";
 
-export const itemSchema = z.object({
-  id: z.string().optional(),
-  content: z
-    .string({ message: "The characters you entered are not supported" })
-    .nonempty("Please enter the item you want to add")
-    .max(100, "Item cannot be longer than 100 characters"),
-  quantity: z
-    .number({
-      message: "The characters you entered are not supported",
-      required_error: "Please inform the quantity",
-    })
-    .nonnegative("the quantity cannot be negative")
-    .min(0.01, "Quantity must be at least 0.01")
-    .max(999999.99, "quantity is too large")
-    .refine(
-      (val) => {
-        const decimalPart = val.toString().split(".")[1];
-        return !decimalPart || decimalPart.length <= 2;
-      },
-      {
-        message: "Quantity must have at most 2 decimal places",
-      }
-    ),
-  measurementUnit: z.nativeEnum(Units),
-  complete: z.boolean(),
-});
+export class ItemCreateSchema {
+  @IsString()
+  @IsNotEmpty({ message: "Por favor insira o conteúdo do item" })
+  content: string;
 
-export type ItemSchemaType = z.infer<typeof itemSchema>;
+  @Type(() => Number)
+  @IsNumber({}, { message: "A quantidade deve ser um número" })
+  @Min(0.01, { message: "A quantidade deve ser maior que zero" })
+  @Max(999999.99, { message: "A quantidade está muito grande" })
+  @IsNotEmpty({ message: "Por favor insira uma quantidade" })
+  quantity: number;
+
+  @IsEnum(Units, { message: "Algo deu errado" })
+  measurementUnit: Units;
+
+  @IsBoolean({ message: "Algo deu errado" })
+  complete: boolean;
+}
+
+export class ItemEditSchema extends ItemCreateSchema {
+  id: string;
+}
